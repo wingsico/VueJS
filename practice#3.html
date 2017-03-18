@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue 2.0</title>
+</head>
+
+<body>
+  <div id="example">
+  </div>
+  <p id="msg" v-once v-if="seen"> message: {{ msg }}</p>
+  <button :disabled="sdc" class="button" @click="closeWindow">Button</button>
+  <div class="reversed">
+    <p>message: "{{message}}"</p>
+    <p>reverse: "{{reversedMessage()}}"</p>
+    <p>data: "{{ now }}"</p>
+  </div>
+  <script src="js/vue.js"></script>
+  <script>
+  var vm = new Vue({
+    data: {
+      a: 1
+    },
+    // mounted updated destroyed
+    // 钩子的this指向调用他的Vue实例
+    // 没有控制器概念
+    created: function() {
+      console.log('a is: ' + this.a);
+    }
+  })
+
+  // vue实例代理其data对象里的所有属性，响应式的，
+  var dat = {
+    a: 1
+  };
+  var vm1 = new Vue({
+    data: dat
+  })
+
+  var data1 = {
+    b: 2
+  }
+  var vm2 = new Vue({
+    el: '#example',
+    data: data1
+  })
+  vm2.$el === document.getElementById('example') // true
+
+  var vm3 = new Vue({
+    el: '#msg',
+    data: {
+      msg: 'hello world ' + new Date(),
+      seen: true
+    }
+  })
+
+  var vm4 = new Vue({
+    el: '.button',
+    data: {
+      sdc: false,
+      closeWindow: function() {
+        document.write('ok!')
+
+        // window.close()  脚本不得关闭非脚本打开的窗口
+      }
+    }
+  })
+
+  var vm5 = new Vue({
+    el: '.reversed',
+    data: {
+      message: ' Hello World! '
+    },
+    computed: { // 计算属性
+      //a computed getter
+      // reversedMessage: function(){
+      // 	return this.message.split('').reverse().join('')
+      // }
+      now: function(){
+      	return Date.now()
+      }
+    },
+    methods: { //计算缓存
+      reversedMessage: function() {
+        return this.message.split('').reverse().join('')
+      }
+    }
+
+  })
+  </script>
+</body>
+
+</html>

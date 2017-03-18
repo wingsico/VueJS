@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue组件</title>
+</head>
+<body>
+<div id="example">
+	<my-component message="1"></my-component>
+	<my-component message="2"></my-component>
+	<my-component message="3"></my-component>
+</div>
+
+<div id="example-1">
+	<input type="text" v-model="parentMsg">
+	</br>
+	<child v-bind:myMsg="parentMsg"></child>
+</div>
+	<script src="js/vue.js"></script>
+	<script>
+		Vue.component('my-component',{
+			template:'<div><button v-on:click=" counter += 1"> {{counter}}</button><span>{{message}}</span></br></div>',
+			data:function(){
+				return {
+					counter:0
+				}
+			},
+			props:['message']
+		})
+
+		new Vue({
+			el:'#example',
+
+		})
+
+		var vm = new Vue({
+			el:'#example-1',
+			data:{
+				parentMsg:''
+			},
+			component:{
+				child: {
+					props:['myMsg'],
+					template:'<span>{{myMsg}}</span>'
+				}
+			}
+		})
+	</script>
+</body>
+</html>

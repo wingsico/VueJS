@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>v-model</title>
+</head>
+
+<body>
+  <div id="example">
+    <form>
+      姓名：
+      <input type="text" v-model="data.name" placeholder="">
+      </br>
+      性别：
+      <input type="radio" id="one" value="One" v-model="data.sex">
+      <label for="one">男</label>
+      <input type="radio" id="two" value="Two" v-model="data.sex">
+      <label for="two">女</label>
+      </br>
+      兴趣：
+      <input type="checkbox" id="jack" value="book" v-model="data.interest">
+      <label for="jack">阅读</label>
+      <input type="checkbox" id="john" value="swim" v-model="data.interest">
+      <label for="john">游泳</label>
+      <input type="checkbox" id="mike" value="game" v-model="data.interest">
+      <label for="mike">游戏</label>
+      <input type="checkbox" id="lucy" value="song" v-model="data.interest">
+      <label for="lucy">唱歌</label>
+      </br>
+      身份：
+      <!-- <select v-model="data.identity">
+        <option value="teacher" selected>教师</option>
+        <option value="doctor">医生</option>
+        <option value="lawyer">律师</option>
+      </select> -->
+    </form>
+  </div>
+
+  <div id="vue1">
+  	<input v-model="msg" debounce="5000"></br>
+  	{{msg}}
+  </div>
+
+  <div>
+  	<ul id="vue2">
+  		<li v-repeat="items" class="item-{{$index}}">
+  			{{$index}} - {{parentMsg}} {{childMsg}}
+  		</li>
+  	</ul> 
+  </div>
+  <script src="js/vue.js"></script>
+  <script>
+  var vue1 = new Vue({
+    el: '#example',
+    data: {
+      data: {
+        name: "",
+        sex: "",
+        interest: [],
+        indentity: ''
+      }
+    }
+  })
+
+  var app1 = new Vue({
+  	el:'#vue2',
+  	data:{
+  		parentMsg:'家园',
+  		items:[
+  			{ childMsg: '点到'},
+  			{ childMsg: '小时光'}
+  		]
+  	}
+  })
+
+  var vue2 = new Vue({
+  	el:'#vue1',
+  	data:{
+  		msg:'内容是在change事件之后改变的~'
+  	}
+  })
+  </script>
+</body>
+
+</html>

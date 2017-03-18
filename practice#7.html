@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue</title>
+</head>
+<style>
+.active {
+  color: green;
+}
+
+.text-danger {
+  color: red;
+}
+</style>
+
+<body>
+  <div v-bind:class="classObj">show the style</div>
+  <p v-bind:class="[{active:isActive},errorClass]">数组语法</p>
+  <span v-bind:style="[styleObj,styleObj2]">对象语法</span>
+  <h1 v-if="Math.random()>0.5">Yes</h1>
+  <h1 v-else>No</h1>
+  <nav id="text">
+    <div v-if="type === 'A'">
+      A
+    </div>
+    <div v-else-if="type === 'B'">
+      B
+    </div>
+    <div v-else-if="type === 'C'">
+      C
+    </div>
+    <div v-else>
+      Not A/B/C
+    </div>
+  </nav>
+  <script src="js/vue.js"></script>
+  <script>
+  var vm = new Vue({
+    el: 'div',
+    data: {
+      isActive: true,
+      error: null
+    },
+    computed: {
+      classObj: function() {
+        return {
+          active: this.isActive && !this.error,
+          'text-danger': this.error && this.error.type === 'fatal', // 这句话什么意思
+        }
+      }
+    }
+  })
+
+  var vm2 = new Vue({
+    el: 'p',
+    data: {
+      isActive: false,
+      activeClass: 'active',
+      errorClass: 'text-danger'
+    }
+  })
+
+  var vm3 = new Vue({
+    el: 'span',
+    data: {
+      styleObj: {
+        color: 'red',
+        fontSize: '13px'
+      },
+      styleObj2: {
+        backgroundColor: 'yellow',
+      }
+
+    }
+  })
+
+  var vm4 = new Vue({
+  	el:'#text',
+  	data: {
+  		type: 'D'
+  	}
+  })
+  </script>
+</body>
+
+</html>

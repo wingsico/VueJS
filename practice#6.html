@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Vue.js</title>
+</head>
+<style type="text/css">
+	.static {
+		font-size: 20px;
+	}
+	.active {
+		color: green;
+	}
+
+	.text-danger {
+		color:red;
+	}
+</style>
+<body>
+  <div class="static" v-bind:class="{ active: isActive,'text-danger': hasError }">
+  	this paragraph is normal?
+  </div>
+  <button class="change">ChangeClass</button>
+<script src="js/vue.js"></script>
+<script>
+	var vm = new Vue({
+		el:'.static',
+		data:{
+			isActive: true,
+			hasError: false
+		}
+	})
+	var change = document.querySelector('.change');
+	function changeClass(){
+		vm.isActive= !vm.isActive
+		vm.hasError= !vm.hasError
+	}
+	change.addEventListener('click',changeClass);
+</script>
+</body>
+</html>
