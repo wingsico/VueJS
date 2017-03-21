@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性</title>
+</head>
+
+<body>
+    <div id="example">
+        <input type="text" v-model="didi" />
+        <input type="text" v-model="family" />
+        </br>
+        didi = {{didi}}, family = {{family}}, didiFamily = {{didiFamily}}
+        <div>
+            <p>{{ example }}</p>
+        </div>
+        <button v-on:click='toggleShow'>Toggle show total price</button>
+        <p v-if="showTotal">Total Price = {{totalPrice}}</p>
+        <p> 我{{totalPrice}}TM的还在这里</p>
+    </div>
+</body>
+
+<script src="js/vue.js"></script>
+<script>
+    var vm = new Vue({
+        el: '#example',
+        data: {
+            didi: 'didi',
+            family: 'family',
+            welcome: 'welcome to join didiFamily!',
+            basePrice: 100,
+            showTotal: true
+        },
+        computed: { // 一个计算属性的get
+            didiFamily: {
+                get: function() {
+                    return this.didi + ' ' + this.family
+                },
+                set: function(value) {
+                    var name = value.split(' ')
+                    this.didi = name[0]
+                    this.family = name[1]
+                }
+            },
+            example: {
+                cache: false, // 缓存开关
+                get: function() {
+                    return new Date() + this.welcome; // 只有当 vm.welcome 改变的时候，计算属性才会执行
+                },
+                set: function(val) {
+                    this.welcome = val
+                }
+            },
+            totalPrice: function() {
+                console.log('变')
+                return this.basePrice += 1 // 当包含计算属性的节点被移除并且模板中其他地方没有再引用该属性时，那么对应计算属性的getter方法就不会执行
+            }
+
+        },
+        methods: {
+            toggleShow: function() {
+                this.showTotal = !this.showTotal // 执行后 p 被移除，计算属性中的 totalPrice getter 不会执行
+            }
+        }
+    })
+
+    /*
+     * 书上说当计算属性一直出现在模板中时，getter方法害死会被执行，但是我尝试后没反应
+     */
+</script>
+
+</html>
