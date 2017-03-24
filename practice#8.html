@@ -2,142 +2,180 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>使用key控制元素的可重用性</title>
+    <meta charset="UTF-8">
+    <title>使用key控制元素的可重用性</title>
 </head>
 
 <body>
-  <div id="key">
-    <template v-if="loginType === 'username'">
+    <div id="key">
+        <template v-if="loginType === 'username'">
       <label>username</label>
       <input placeholder="Enter your username" key="username-input">
     </template>
-    <template v-else>
+        <template v-else>
       <label>Email</label>
       <input placeholder="Enter your email address" key="email-input">
     </template>
-    <button v-on:click="toggleLoginType">change login type</button>
-  </div>
-  <div v-on:click.ctrl="doSomething" class="dos">doSomething</div>
-  <div id="increase">
-    <span> {{ number }} </span>
-    <button v-on:click.stop="_stop">stop</button>
-  </div>
-  <div id="model">
-    <input v-model.trim="message" placeholder="edit me">
-    <p>Message is: {{ message }}</p>
-  </div>
-  <div id="checkBox">
-    <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
-    <label for="jack">Jack</label>
-    <input type="checkbox" id="john" value="John" v-model="checkedNames">
-    <label for="john">John</label>
-    <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
-    <label for="mike">Mike</label>
-    <br>
-    <span>Checked names: {{ checkedNames }}</span>
-  </div>
-  <div id="radio">
-    <input type="radio" id="one" value="One" v-model="picked">
-    <label for="one">One</label>
-    <br>
-    <input type="radio" id="two" value="Two" v-model="picked">
-    <label for="two">Two</label>
-    <br>
-    <span>Picked: {{ picked }}</span>
-  </div>
-  <div id="options">
-    <select v-model="selected" multiple="">
+        <button v-on:click="toggleLoginType">change login type</button>
+    </div>
+    <div v-on:click.ctrl="doSomething" class="dos">doSomething</div>
+    <div id="increase">
+        <span> {{ number }} </span>
+        <button v-on:click.stop="_stop">stop</button>
+    </div>
+    <div id="model">
+        <input v-model.trim="message" placeholder="edit me">
+        <p>Message is: {{ message }}</p>
+    </div>
+    <div id="checkBox">
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br>
+        <span>Checked names: {{ checkedNames }}</span>
+    </div>
+    <div id="radio">
+        <input type="radio" id="one" value="One" v-model="picked">
+        <label for="one">One</label>
+        <br>
+        <input type="radio" id="two" value="Two" v-model="picked">
+        <label for="two">Two</label>
+        <br>
+        <span>Picked: {{ picked }}</span>
+    </div>
+    <div id="options">
+        <select v-model="selected" multiple="">
       <option checked>A</option>
       <option>B</option>
       <option>C</option>
     </select>
-    <span>Selected: {{ selected }}</span>
-  </div>
+        <span>Selected: {{ selected }}</span>
+    </div>
 
-  <div id="select">
-  	<select v-model="selected">
-  		<option v-for="option in options" v-bind:value="option.value">
-  			{{option.text}}
-  		</option>
-  	</select>
-  	<span>Selected: {{ selected }}</span>
-  </div>
-  <script src="js/vue.js"></script>
-  <script>
-  new Vue({
-    el: '#key',
-    data: {
-      loginType: 'username'
-    },
-    methods: {
-      toggleLoginType: function() {
-        return this.loginType = this.loginType === 'username' ? 'email' : 'username'
-      }
-    }
-  })
+    <div id="select">
+        <select v-model="selected">
+  				<option v-for="option in options" v-bind:value="option.value" >
+  				{{option.text}}
+  				</option>
+  			</select>
+        <span>Selected: {{ selected }}</span>
+    </div>
 
-  var vm = new Vue({
-    el: '.dos',
-    methods: {
-      doSomething: function() {
-        alert('yes!')
-      }
-    }
-  })
+    <div class="list">
+        <button v-on:click="addList">增加一行</button>
+        <p>列表的条数: {{ listLength }}</p>
+        <ul>
+            <li v-for="(list,index) in lists" v-on:click="removeList(index)">
+                {{ list.text }}
+            </li>
+        </ul>
 
-  var vm2 = new Vue({
-    el: '#increase',
-    data: {
-      n: 1
-    },
-    computed: {
-      number: function() {
-        return this.n + 1
-      }
-    }
-  })
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#key',
+            data: {
+                loginType: 'username'
+            },
+            methods: {
+                toggleLoginType: function() {
+                    return this.loginType = this.loginType === 'username' ? 'email' : 'username'
+                }
+            }
+        })
+        var vm = new Vue({
+            el: '.dos',
+            methods: {
+                doSomething: function() {
+                    alert('yes!')
+                }
+            }
+        })
+        var vm2 = new Vue({
+            el: '#increase',
+            data: {
+                n: 1
+            },
+            computed: {
+                number: function() {
+                    return this.n + 1
+                }
+            }
+        })
+        var vm3 = new Vue({
+            el: '#model',
+            data: {
+                message: ''
+            }
+        })
+        var vm4 = new Vue({
+            el: '#checkBox',
+            data: {
+                checkedNames: [] // 若此处不为数组，则会产生错误
+            }
+        })
+        var vm5 = new Vue({
+            el: '#radio',
+            data: {
+                picked: ''
+            }
+        })
+        var vm6 = new Vue({
+            el: '#options',
+            data: {
+                selected: []
+            }
+        })
+        var vm7 = new Vue({
+            el: '#select',
+            data: {
+                selected: 'C',
+                options: [{
+                    'text': 'A',
+                    'value': 'A'
+                }, {
+                    'text': 'B',
+                    'value': 'B'
+                }, {
+                    'text': 'C',
+                    'value': 'C'
+                }]
+            }
+        })
 
-  var vm3 = new Vue({
-    el: '#model',
-    data: {
-      message: ''
-    }
-  })
-
-  var vm4 = new Vue({
-    el: '#checkBox',
-    data: {
-      checkedNames: [] // 若此处不为数组，则会产生错误
-    }
-  })
-
-  var vm5 = new Vue({
-    el: '#radio',
-    data: {
-      picked: ''
-    }
-  })
-
-  var vm6 = new Vue({
-    el: '#options',
-    data: {
-      selected: []
-    }
-  })
-
-  var vm7 = new Vue({
-  	el:'#select',
-  	data:{
-  		selected:'A',
-  		options:[
-  			{'text':'A','value':'A'},
-  			{'text':'B','value':'B'},
-  			{'text':'C','value':'C'}
-  		]
-  	}
-  })
-  </script>
+        var vm8 = new Vue({
+            el: '.list',
+            data: {
+                lists: [{
+                    'text': 'likeyou!'
+                }, {
+                    'text': 'city!'
+                }, {
+                    'text': 'city!!!!'
+                }]
+            },
+            methods: {
+                addList: function() {
+                    this.lists.push({
+                        'text': 'laji!'
+                    })
+                },
+                removeList: function(e) {
+                    console.log(e)
+                    this.lists.splice(e, 1)
+                }
+            },
+            computed: {
+                listLength: function() {
+                    return this.lists.length
+                }
+            }
+        })
+    </script>
 </body>
 
 </html>
